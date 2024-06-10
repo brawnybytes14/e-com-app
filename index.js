@@ -22,9 +22,11 @@ app.get('/events', (req, res) => {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
+  console.log("client connected")
   clients.push(res);
 
   req.on('close', () => {
+    console.log("client disconnected")
     clients = clients.filter(client => client !== res);
   });
 });
@@ -37,11 +39,13 @@ setInterval(() => {
   utils.restockProducts(clients);
 }, 3000);
 
+utils.resetData();
+
 const productsRouter = require('./routes/products')
 app.use("/products", productsRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(3000, () => {
-  console.log(`Server running on port http://localhost:${3000}`);
+  console.log(`Server running on http://localhost:${3000}`);
 });

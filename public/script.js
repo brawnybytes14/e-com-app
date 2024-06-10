@@ -3,6 +3,8 @@ let demoChart;
 const eventSource = new EventSource('http://localhost:3000/events');
 const buyForm = document.getElementById("buy-form")
 
+const _color = '#0D81C9';
+
 window.onload = async () => {
   await refreshDashboard()
 }
@@ -95,7 +97,7 @@ async function fetchProducts() {
 }
 
 function renderTotalSales(totalSales) {
-  document.getElementById("total-sales").innerText = "Total Sales: " + totalSales;
+  document.getElementById("total-sales").innerHTML = `Total Sales: <span class="total-sale">${totalSales}</span>`;
 }
 
 function renderProducts(products) {
@@ -134,54 +136,58 @@ function renderProducts(products) {
 
 function renderSalesTrendsChart(data) {
   if (salesChart) {
-    salesChart.destroy();
-  }
-
-  const ctx = document.getElementById('salesTrendsChart').getContext('2d');
-  salesChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: Object.keys(data),
-      datasets: [{
-        label: 'Sales Trends',
-        data: Object.values(data),
-        borderColor: '#47b01a',
-        backgroundColor: '#47b01a',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        x: { beginAtZero: true },
-        y: { beginAtZero: true }
+    salesChart.data.labels = Object.keys(data);
+    salesChart.data.datasets[0].data = Object.values(data);
+    salesChart.update();
+  } else {
+    const ctx = document.getElementById('salesTrendsChart').getContext('2d');
+    salesChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: Object.keys(data),
+        datasets: [{
+          label: 'Sales Trends',
+          data: Object.values(data),
+          borderColor: _color,
+          backgroundColor: _color,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        scales: {
+          x: { beginAtZero: true },
+          y: { beginAtZero: true }
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 function renderCustomerDemographicsChart(data) {
   if (demoChart) {
-    demoChart.destroy();
-  }
-
-  const ctx = document.getElementById('customerDemographicsChart').getContext('2d');
-  demoChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(data.ageGroups),
-      datasets: [{
-        label: 'Customer Age Groups',
-        data: Object.values(data.ageGroups),
-        backgroundColor: '#d47c59',
-        borderColor: '#d47c59',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        x: { beginAtZero: true },
-        y: { beginAtZero: true }
+    demoChart.data.labels = Object.keys(data.ageGroups);
+    demoChart.data.datasets[0].data = Object.values(data.ageGroups);
+    demoChart.update();
+  } else {
+    const ctx = document.getElementById('customerDemographicsChart').getContext('2d');
+    demoChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(data.ageGroups),
+        datasets: [{
+          label: 'Customer Age Groups',
+          data: Object.values(data.ageGroups),
+          backgroundColor: _color,
+          borderColor: _color,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          x: { beginAtZero: true },
+          y: { beginAtZero: true }
+        }
       }
-    }
-  });
+    });
+  }
 }

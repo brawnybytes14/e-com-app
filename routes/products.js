@@ -10,7 +10,6 @@ const data = require('../data')
 const utils = require('../utils')
 
 router.get('/', async (req, res) => {
-  console.log("products")
   const category = req.query.category;
   const sortType = req.query.sortType;
   const products = await Product.find();
@@ -20,7 +19,6 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/sales/total', async (req, res) => {
-  console.log("total sales")
   const products = await Product.find();
   const sales = await Sale.find();
 
@@ -30,7 +28,6 @@ router.get('/sales/total', async (req, res) => {
 
 router.get('/sales/trends', async (req, res) => {
   try {
-    console.log("sales trends")
     const period = req.query.period || 'daily';
 
     const products = await Product.find();
@@ -55,7 +52,6 @@ router.post('/', async (req, res) => {
 
 router.get('/customers/demographics', async (req, res) => {
   try {
-    console.log("demographics")
     const customers = await Customer.find();
     const demographics = utils.analyzeCustomerDemographics(customers);
     res.json(demographics);
@@ -66,7 +62,6 @@ router.get('/customers/demographics', async (req, res) => {
 });
 
 router.post('/buy', async (req, res) => {
-  console.log("buy")
   const {productId, quantity, name, age, gender, customerId} = req.body;
 
   console.log(req.body);
@@ -123,7 +118,6 @@ router.post('/buy', async (req, res) => {
 
 router.get('/customers/segment', async (req, res) => {
   try {
-    console.log("customers segment")
     const {ageGroup, gender} = req.query;
     let customers = await Customer.find();
 
@@ -147,6 +141,14 @@ router.get('/insert-data', async (req, res) => {
   await Sale.insertMany(data.sales)
   await Customer.insertMany(data.customers)
   res.send("inserted data successfully");
+})
+
+router.get('/delete-data', async (req, res) => {
+  console.log("delete data")
+  await Product.deleteMany({})
+  await Sale.deleteMany({})
+  await Customer.deleteMany({})
+  res.send("deleted data successfully");
 })
 
 module.exports = router;

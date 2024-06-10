@@ -1,4 +1,8 @@
 const Product = require('./model/product')
+const Sale = require('./model/sale')
+const Customer = require('./model/customer')
+
+const data = require('./data')
 
 function getProductsByCategory(products, category) {
   if (!category) {
@@ -133,6 +137,18 @@ const restockProducts = async (clients) => {
   }
 }
 
+const resetData = async () => {
+  console.log("resetting data")
+  await Product.deleteMany({})
+  await Sale.deleteMany({})
+  await Customer.deleteMany({})
+
+  await Product.insertMany(data.products)
+  await Sale.insertMany(data.sales)
+  await Customer.insertMany(data.customers)
+  console.log("done resetting data")
+}
+
 const genderCriteria = (gender) => (customer) => customer.gender === gender;
 
 module.exports = {
@@ -144,5 +160,6 @@ module.exports = {
   ageGroupCriteria,
   genderCriteria,
   analyzeCustomerDemographics,
-  restockProducts
+  restockProducts,
+  resetData
 }

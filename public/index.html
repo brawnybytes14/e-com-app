@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E-Commerce Dashboard</title>
-  
+
   <link rel="stylesheet" href="styles.css">
   <script src="lib/chart.js"></script>
 </head>
@@ -46,29 +46,27 @@
 
   <h2>Buy Product</h2>
 
+  <h2 id="response-message" style="font-weight: bold; color: green;"></h2>
+
   <form id="buy-form">
     <label for="input-prod-id">Product ID </label><input id="input-prod-id" min="1" type="number" required
       placeholder="Enter Product ID" />
     <label for="input-qty">Quantity </label><input id="input-qty" min="1" required type="number"
       placeholder="Enter Quantity" />
-    <br>
-    <br>
-    <label for="input-cust-id">Cust ID </label><input id="input-cust-id" min="1" type="number" required
+    <label for="input-cust-id">Customer ID </label><input id="input-cust-id" min="1" type="number" required
       placeholder="Enter Your Customer ID" />
-    <label for="input-name">Cust Name </label><input id="input-name" required placeholder="Enter Your Name" />
+    <label for="input-name">Customer Name </label><input id="input-name" required placeholder="Enter Your Name" />
     <label for="input-age">Age </label><input id="input-age" min="18" type="number" required
       placeholder="Enter Your Age" />
     <label for="select-gender">Gender </label>
-    <select id="select-gender">
+    <select style="padding: 2px;" id="select-gender">
       <option value="Male">Male</option>
       <option value="Female">Female</option>
       <option value="Other">Other</option>
     </select>
     <button type="submit">Proceed to Buy</button>
   </form>
-
-  <div id="response-message"></div>
-
+  <br>
   <br>
   <br>
 
