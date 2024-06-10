@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="ecommerce@localhost">
+  <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.48">
+    <root id="1">
+      <ServerVersion>6.0.8</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="admin"/>
+    <schema id="3" parent="1" name="config"/>
+    <schema id="4" parent="1" name="ecommerce">
+      <Current>1</Current>
+    </schema>
+    <schema id="5" parent="1" name="local"/>
+    <schema id="6" parent="1" name="mongounit-testdb_id957345_2023_08_10_15_54_00_-1707268838"/>
+    <schema id="7" parent="1" name="mongounit-testdb_id957345_2023_08_10_15_56_24_-674048707"/>
+    <schema id="8" parent="1" name="mongounit-testdb_id957345_2023_08_10_15_57_43_893280594"/>
+    <schema id="9" parent="1" name="mongounit-testdb_id957345_2023_08_10_16_03_02_1945896931"/>
+    <schema id="10" parent="1" name="mongounit-testdb_id957345_2023_08_10_16_12_21_1007455464"/>
+    <schema id="11" parent="1" name="mongounit-testdb_id957345_2023_08_10_16_15_08_-2043798828"/>
+    <schema id="12" parent="1" name="mongounit-testdb_id957345_2023_08_10_16_20_08_-1973877391"/>
+    <schema id="13" parent="1" name="mongounit-testdb_id957345_2023_08_10_16_26_19_384616053"/>
+    <schema id="14" parent="1" name="mongounit-testdb_id957345_2023_08_13_17_48_44_-1411988218"/>
+    <schema id="15" parent="1" name="mongounit-testdb_id957345_2023_08_13_17_49_57_964503385"/>
+    <schema id="16" parent="1" name="mongounit-testdb_id957345_2023_08_13_17_53_56_-1112766575"/>
+    <schema id="17" parent="1" name="mongounit-testdb_id957345_2023_08_13_17_57_01_-1643294993"/>
+    <schema id="18" parent="1" name="mongounit-testdb_id957345_2023_08_13_17_57_23_-267530774"/>
+    <schema id="19" parent="1" name="mongounit-testdb_id957345_2023_08_13_18_21_33_1647368189"/>
+    <schema id="20" parent="1" name="mongounit-testdb_id957345_2023_08_13_19_57_52_1837204850"/>
+    <schema id="21" parent="1" name="senderId"/>
+    <table id="22" parent="4" name="customers"/>
+    <table id="23" parent="4" name="products"/>
+    <column id="24" parent="22" name="_id">
+      <DasType>ObjectId|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="25" parent="22" name="age">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="26" parent="22" name="customerId">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="27" parent="22" name="name">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="28" parent="22" name="purchaseHistory">
+      <DasType>Array|2003s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="29" parent="22" name="__v">
+      <DasType>Int32|4s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="30" parent="22" name="gender">
+      <DasType>String|12s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="31" parent="23" name="_id">
+      <DasType>ObjectId|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="32" parent="23" name="__v">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="33" parent="23" name="category">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="34" parent="23" name="id">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="35" parent="23" name="name">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="36" parent="23" name="stock">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="37" parent="23" name="price">
+      <DasType>Double|8s</DasType>
+      <Position>2</Position>
+    </column>
+  </database-model>
+</dataSource>

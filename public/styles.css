@@ -7,3 +7,15 @@ table, th, td {
   border-collapse: collapse;
   text-align: left;
 }
+
+.status-div {
+  display:none; user-select: none; background: red; height: 37px; width: 100%; color: white
+}
+
+.close-btn {
+  font-size: 30px; margin-left: 10px; cursor: pointer
+}
+
+.alert-span{
+  font-size: 30px; margin-left: 10px
+}

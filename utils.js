@@ -1,4 +1,5 @@
-const data = require('./data');
+const Product = require('./model/product')
+
 function getProductsByCategory(products, category) {
   if (!category) {
     return products;
@@ -42,16 +43,26 @@ const analyzeCustomerDemographics = (customers) => {
 
   customers.forEach(customer => {
     // Age groups
-    if (customer.age >= 18 && customer.age <= 25) demographics.ageGroups['18-25']++;
-    else if (customer.age >= 26 && customer.age <= 35) demographics.ageGroups['26-35']++;
-    else if (customer.age >= 36 && customer.age <= 45) demographics.ageGroups['36-45']++;
-    else if (customer.age >= 46 && customer.age <= 60) demographics.ageGroups['46-60']++;
-    else if (customer.age > 60) demographics.ageGroups['60+']++;
+    if (customer.age >= 18 && customer.age <= 25) {
+      demographics.ageGroups['18-25']++;
+    } else if (customer.age >= 26 && customer.age <= 35) {
+      demographics.ageGroups['26-35']++;
+    } else if (customer.age >= 36 && customer.age <= 45) {
+      demographics.ageGroups['36-45']++;
+    } else if (customer.age >= 46 && customer.age <= 60) {
+      demographics.ageGroups['46-60']++;
+    } else if (customer.age > 60) {
+      demographics.ageGroups['60+']++;
+    }
 
     // Gender
-    if (customer.gender === 'Male') demographics.gender.male++;
-    else if (customer.gender === 'Female') demographics.gender.female++;
-    else demographics.gender.other++;
+    if (customer.gender === 'Male') {
+      demographics.gender.male++;
+    } else if (customer.gender === 'Female') {
+      demographics.gender.female++;
+    } else {
+      demographics.gender.other++;
+    }
   });
 
   return demographics;
@@ -88,15 +99,41 @@ const segmentCustomers = (customers, criteria) => {
 };
 
 const ageGroupCriteria = (ageGroup) => (customer) => {
-  if (ageGroup === '18-25') return customer.age >= 18 && customer.age <= 25;
-  if (ageGroup === '26-35') return customer.age >= 26 && customer.age <= 35;
-  if (ageGroup === '36-45') return customer.age >= 36 && customer.age <= 45;
-  if (ageGroup === '46-60') return customer.age >= 46 && customer.age <= 60;
-  if (ageGroup === '60+') return customer.age > 60;
+  if (ageGroup === '18-25') {
+    return customer.age >= 18 && customer.age <= 25;
+  }
+  if (ageGroup === '26-35') {
+    return customer.age >= 26 && customer.age <= 35;
+  }
+  if (ageGroup === '36-45') {
+    return customer.age >= 36 && customer.age <= 45;
+  }
+  if (ageGroup === '46-60') {
+    return customer.age >= 46 && customer.age <= 60;
+  }
+  if (ageGroup === '60+') {
+    return customer.age > 60;
+  }
 };
 
-const genderCriteria = (gender) => (customer) => customer.gender === gender;
+const restockProducts = async (clients) => {
+  try {
+    const products = await Product.find();
+    const stockThreshold = 10;
+    for (const product of products) {
+      if (product.stock < stockThreshold) {
+        console.log("updating the stock")
+        product.stock += 50;
+        await product.save();
+        clients.forEach(client => client.write(`data: Restocked: ${product.name}, new stock: ${product.stock}\n\n`));
+      }
+    }
+  } catch (error) {
+    console.log("Error restocking products", error.message)
+  }
+}
 
+const genderCriteria = (gender) => (customer) => customer.gender === gender;
 
 module.exports = {
   getProductsByCategory,
@@ -106,5 +143,6 @@ module.exports = {
   segmentCustomers,
   ageGroupCriteria,
   genderCriteria,
-  analyzeCustomerDemographics
+  analyzeCustomerDemographics,
+  restockProducts
 }

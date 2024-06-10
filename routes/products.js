@@ -40,7 +40,7 @@ router.get('/sales/trends', async (req, res) => {
     res.status(200).json(salesTrends);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Something went wrong' });
+    res.status(500).json({error: 'Something went wrong'});
   }
 });
 
@@ -61,15 +61,70 @@ router.get('/customers/demographics', async (req, res) => {
     res.json(demographics);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({error: 'Internal Server Error'});
   }
 });
 
+router.post('/buy', async (req, res) => {
+  console.log("buy")
+  const {productId, quantity, name, age, gender, customerId} = req.body;
+
+  console.log(req.body);
+  try {
+    const product = await Product.findOne({id: productId});
+
+    if (!product) {
+      console.log(product)
+      return res.status(400).json({message: 'Product not found'});
+    }
+
+    if (product.stock < quantity) {
+      return res.status(400).json({message: 'Insufficient stock'});
+    }
+
+    product.stock -= quantity;
+    await product.save();
+
+    const sales = await Sale.find();
+    
+    const saleId = sales.length + 1;
+
+    const sale = new Sale({
+      saleId,
+      productId,
+      quantity,
+      saleDate: new Date(),
+    });
+
+    await sale.save();
+
+    let customerInDb = await Customer.findOne({customerId: customerId});
+    console.log("customer in db", customerInDb)
+    if (!customerInDb) {
+      const customer = new Customer({
+        customerId,
+        name,
+        age,
+        gender,
+        purchaseHistory: [productId]
+      });
+      await customer.save();
+    } else {
+      customerInDb.purchaseHistory = [...customerInDb.purchaseHistory, productId];
+      await customerInDb.save();
+    }
+
+    res.status(200).json({message: 'Purchase successful'});
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({message: 'An error occurred'});
+  }
+});
 
 router.get('/customers/segment', async (req, res) => {
   try {
     console.log("customers segment")
-    const { ageGroup, gender} = req.query;
+    const {ageGroup, gender} = req.query;
     let customers = await Customer.find();
 
     if (ageGroup) {
@@ -82,7 +137,7 @@ router.get('/customers/segment', async (req, res) => {
     res.json(customers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({error: 'Internal Server Error'});
   }
 });
 

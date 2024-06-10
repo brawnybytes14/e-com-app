@@ -6,11 +6,36 @@ const app = express();
 // connect mongodb
 const url = "mongodb://localhost:27017/ecommerce";
 mongoose.connect(url)
-  .then(res => console.log("db connected..."))
-  .catch(err => console.log(err))
+.then(res => console.log("db connected..."))
+.catch(err => console.log(err))
 
 // allow json from post
 app.use(express.json());
+
+const utils = require('./utils');
+const simulate = require('./simulate');
+
+let clients = [];
+app.get('/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  clients.push(res);
+
+  req.on('close', () => {
+    clients = clients.filter(client => client !== res);
+  });
+});
+
+setInterval(() => {
+  simulate.simulatePurchase(clients)
+}, 2000);
+
+setInterval(() => {
+  utils.restockProducts(clients);
+}, 3000);
 
 const productsRouter = require('./routes/products')
 app.use("/products", productsRouter);
